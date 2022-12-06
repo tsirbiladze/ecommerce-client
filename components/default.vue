@@ -1,10 +1,14 @@
 <template>
-  <p>Hello</p>
+  <Default />
 </template>
 
 <script>
+
+import Default from "../layouts/default";
+
 export default {
-  name: "default"
+  name: "default",
+  components: {Default}
 }
 </script>
 
