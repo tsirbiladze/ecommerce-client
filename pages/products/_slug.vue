@@ -17,24 +17,20 @@
             <hr>
 
             <span class="tag is-rounded is-medium">
-            {{ product.price }}
-          </span>
+              {{ product.price }}
+            </span>
           </section>
           <section class="section">
             <form action="">
-              <ProductVariation
-                v-for="(variations, type) in product.variations"
-                :type="type"
-                :variations="variations"
-                :key="type"
-                v-model="form.variation"
-              />
+              <ProductVariation v-for="(variations, type) in product.variations" :type="type" :variations="variations"
+                :key="type" v-model="form.variation" />
+
 
               <div class="field has-addons" v-if="form.variation">
                 <div class="control">
                   <div class="select is-full-width">
-                    <select name="" id="">
-                      <option value="">1</option>
+                    <select name="" id="" v-model="form.quantity">
+                      <option :value="x" v-for="x in parseInt(form.variation.stock_count)" :key="x">{{ x }}</option>
                     </select>
                   </div>
                 </div>
@@ -68,10 +64,16 @@ export default {
     }
   },
 
+  watch: {
+    'form.variation'() {
+      this.form.quantity = 1
+    }
+  },
+
   components: {
     ProductVariation
   },
-  async asyncData({params, app}) {
+  async asyncData({ params, app }) {
     let response = await app.$axios.$get(`products/${params.slug}`)
     return {
       product: response.data
@@ -81,4 +83,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
